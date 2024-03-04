@@ -11,11 +11,9 @@ import org.mapstruct.MappingTarget;
 public interface BlogMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
     Blog blogCreateDtoToEntity(BlogCreateDTO dto);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
     void updateBlogFromDto(BlogUpdateDTO dto, @MappingTarget Blog blog);
 
 }

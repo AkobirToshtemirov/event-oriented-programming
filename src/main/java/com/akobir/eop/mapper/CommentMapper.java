@@ -9,12 +9,10 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
+
     @Mapping(target = "id", ignore = true)
     Comment commentCreateDtoToEntity(CommentCreateDTO dto);
 
     void updateCommentFromDto(CommentUpdateDTO dto, @MappingTarget Comment comment);
 
-    CommentCreateDTO commentToCreateDto(Comment comment);
-
-    CommentUpdateDTO commentToUpdateDto(Comment comment);
 }

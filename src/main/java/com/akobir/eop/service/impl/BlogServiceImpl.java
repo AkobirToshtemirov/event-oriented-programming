@@ -3,10 +3,12 @@ package com.akobir.eop.service.impl;
 import com.akobir.eop.dto.BlogCreateDTO;
 import com.akobir.eop.dto.BlogUpdateDTO;
 import com.akobir.eop.entity.Blog;
+import com.akobir.eop.entity.User;
 import com.akobir.eop.event.BlogDeletedEvent;
 import com.akobir.eop.exception.NotFoundException;
 import com.akobir.eop.mapper.BlogMapper;
 import com.akobir.eop.repository.BlogRepository;
+import com.akobir.eop.repository.UserRepository;
 import com.akobir.eop.service.BlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -22,10 +24,14 @@ public class BlogServiceImpl implements BlogService {
     private final BlogRepository blogRepository;
     private final BlogMapper blogMapper;
     private final ApplicationEventPublisher eventPublisher;
+    private final UserRepository userRepository;
 
     @Override
     public Blog createBlog(BlogCreateDTO dto) {
         Blog blog = blogMapper.blogCreateDtoToEntity(dto);
+        User user = userRepository.findById(dto.userId())
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + dto.userId()));
+        blog.setUser(user);
         return blogRepository.save(blog);
     }
 
